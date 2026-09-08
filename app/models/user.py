@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Boolean, DateTime, String, text
+from sqlalchemy import Boolean, Computed, DateTime, Index, String, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -15,9 +15,16 @@ class User(Base):
 
     email: Mapped[str] = mapped_column(
         String(255),
-        unique=True,
-        index=True,
         nullable=False,
+    )
+
+    active_email: Mapped[str | None] = mapped_column(
+        String(255),
+        Computed(
+            "CASE WHEN is_deleted = 0 THEN email ELSE NULL END",
+            persisted=True,
+        ),
+        nullable=True,
     )
 
     full_name: Mapped[str] = mapped_column(
@@ -69,4 +76,12 @@ class User(Base):
         "UserRole",
         foreign_keys="UserRole.assigned_by",
         back_populates="assigned_by_user",
+    )
+    
+    __table_args__ = (
+        Index(
+            "ix_users_active_email",
+            "active_email",
+            unique=True,
+        ),
     )
