@@ -12,6 +12,11 @@ services:
       MYSQL_DATABASE: ai_risk
       MYSQL_USER: ai_app
       MYSQL_PASSWORD: ai_app_password
+
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      
     depends_on:
       mysql:
         condition: service_healthy

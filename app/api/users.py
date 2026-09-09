@@ -3,6 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.api.dependencies import get_current_user
 from app.core.security import hash_password
 from app.db.database import get_db
 from app.models.user import User
@@ -29,6 +30,19 @@ def get_users(
     ).all()
 
     return users
+
+
+@router.get(
+    "/me",
+    response_model=UserResponse,
+)
+def get_current_user_profile(
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Return the currently authenticated user's profile.
+    """
+    return current_user
 
 
 @router.post(

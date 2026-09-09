@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.core.security import verify_password
+from app.core.security import create_access_token, verify_password
 from app.db.database import get_db
 from app.models.user import User
 from app.schemas.auth import LoginRequest, LoginResponse
@@ -60,13 +60,11 @@ def login(
 
     user.last_login_at = datetime.now(timezone.utc)
 
+    access_token = create_access_token(user.id)
+
     db.commit()
-    db.refresh(user)
 
     return LoginResponse(
-        message="Login successful.",
-        user_id=user.id,
-        email=user.email,
-        full_name=user.full_name,
-        last_login_at=user.last_login_at,
+        access_token=access_token,
+        token_type="bearer",
     )
