@@ -77,7 +77,17 @@ class User(Base):
         foreign_keys="UserRole.assigned_by",
         back_populates="assigned_by_user",
     )
-    
+
+    devices: Mapped[list["Device"]] = relationship(
+        "Device",
+        back_populates="user",
+    )
+
+    transactions: Mapped[list["Transaction"]] = relationship(
+        "Transaction",
+        back_populates="user",
+    )
+
     __table_args__ = (
         Index(
             "ix_users_active_email",
