@@ -5,7 +5,7 @@ from sqlalchemy import engine_from_config, pool
 
 from app.db.base import Base
 from app.db.database import DATABASE_URL
-from app.models import user, role, user_role
+from app.models import account, customer, role, user, user_role
 # Alembic Config object
 config = context.config
 
