@@ -1,4 +1,4 @@
-from app.models import account, customer, device, role, transaction, user, user_role
+from app.models import account, customer, device, risk_assessment, role, transaction, user, user_role
 
 __all__ = [
     "user",
@@ -8,4 +8,5 @@ __all__ = [
     "account",
     "device",
     "transaction",
+    "risk_assessment",
 ]

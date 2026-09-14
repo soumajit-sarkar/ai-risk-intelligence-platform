@@ -88,6 +88,12 @@ class User(Base):
         back_populates="user",
     )
 
+    risk_assessments_created: Mapped[list["RiskAssessment"]] = relationship(
+        "RiskAssessment",
+        foreign_keys="RiskAssessment.created_by",
+        back_populates="created_by_user",
+    )
+
     __table_args__ = (
         Index(
             "ix_users_active_email",

@@ -121,3 +121,8 @@ class Transaction(Base):
         "Device",
         back_populates="transactions",
     )
+
+    risk_assessments: Mapped[list["RiskAssessment"]] = relationship(
+        "RiskAssessment",
+        back_populates="transaction",
+    )
