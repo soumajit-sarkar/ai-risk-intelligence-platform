@@ -122,3 +122,35 @@ def update_transaction(
         raise
 
     return transaction
+
+
+def delete_transaction(
+    db: Session,
+    transaction_id: int,
+    current_user: User,
+) -> Transaction:
+    """
+    Soft delete an active transaction belonging to the authenticated user.
+    """
+    transaction = db.scalar(
+        select(Transaction).where(
+            Transaction.id == transaction_id,
+            Transaction.user_id == current_user.id,
+            Transaction.is_deleted.is_(False),
+        )
+    )
+
+    if transaction is None:
+        raise ValueError("Transaction not found.")
+
+    transaction.is_deleted = True
+
+    try:
+        db.commit()
+        db.refresh(transaction)
+
+    except IntegrityError:
+        db.rollback()
+        raise
+
+    return transaction

@@ -7,7 +7,7 @@ from app.api.dependencies import get_db
 from app.models.user import User
 from app.schemas.transaction import TransactionCreate
 from app.schemas.transaction import TransactionResponse, TransactionUpdate
-from app.services.transaction_service import create_transaction, get_transactions, update_transaction
+from app.services.transaction_service import create_transaction, get_transactions, update_transaction,delete_transaction
 
 
 router = APIRouter(
@@ -53,6 +53,7 @@ def create_transaction_endpoint(
     "",
     response_model=list[TransactionResponse],
 )
+
 def get_transactions_endpoint(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -98,4 +99,37 @@ def update_transaction_endpoint(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Unable to update transaction.",
+        )
+
+
+@router.delete(
+    "/{transaction_id}",
+    response_model=TransactionResponse,
+)
+def delete_transaction_endpoint(
+    transaction_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> TransactionResponse:
+    """
+    Soft delete an active transaction belonging to the authenticated user.
+    """
+    try:
+        return delete_transaction(
+            db=db,
+            transaction_id=transaction_id,
+            current_user=current_user,
+        )
+
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(exc),
+        )
+
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Unable to delete transaction.",
         )
