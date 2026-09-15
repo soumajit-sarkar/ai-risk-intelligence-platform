@@ -7,7 +7,7 @@ from app.api.dependencies import get_db
 from app.models.user import User
 from app.schemas.transaction import TransactionCreate
 from app.schemas.transaction import TransactionResponse
-from app.services.transaction_service import create_transaction
+from app.services.transaction_service import create_transaction, get_transactions
 
 
 router = APIRouter(
@@ -47,3 +47,20 @@ def create_transaction_endpoint(
             status_code=status.HTTP_409_CONFLICT,
             detail="Transaction reference already exists.",
         )
+
+
+@router.get(
+    "",
+    response_model=list[TransactionResponse],
+)
+def get_transactions_endpoint(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> list[TransactionResponse]:
+    """
+    Retrieve all active transactions belonging to the authenticated user.
+    """
+    return get_transactions(
+        db=db,
+        current_user=current_user,
+    )

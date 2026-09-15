@@ -56,3 +56,19 @@ def create_transaction(
     db.refresh(transaction)
 
     return transaction
+
+def get_transactions(
+    db: Session,
+    current_user: User,
+) -> list[Transaction]:
+    """
+    Retrieve all active transactions belonging to the authenticated user.
+    """
+    transactions = db.scalars(
+        select(Transaction).where(
+            Transaction.user_id == current_user.id,
+            Transaction.is_deleted.is_(False),
+        )
+    ).all()
+
+    return transactions
