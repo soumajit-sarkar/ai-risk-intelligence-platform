@@ -19,6 +19,58 @@ class TransactionCreate(BaseModel):
     device_id: int = Field(gt=0)
     ip_address: str | None = Field(default=None, max_length=45)
 
+class TransactionUpdate(BaseModel):
+    transaction_type: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=30,
+    )
+    amount: Decimal | None = Field(
+        default=None,
+        gt=0,
+        max_digits=18,
+        decimal_places=2,
+    )
+    currency: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=10,
+    )
+    transaction_time: datetime | None = None
+    merchant_name: str | None = Field(
+        default=None,
+        max_length=150,
+    )
+    merchant_category: str | None = Field(
+        default=None,
+        max_length=100,
+    )
+    channel: str | None = Field(
+        default=None,
+        max_length=30,
+    )
+    location_country: str | None = Field(
+        default=None,
+        min_length=2,
+        max_length=2,
+    )
+    location_city: str | None = Field(
+        default=None,
+        max_length=100,
+    )
+    device_id: int | None = Field(
+        default=None,
+        gt=0,
+    )
+    ip_address: str | None = Field(
+        default=None,
+        max_length=45,
+    )
+    status: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=20,
+    )
 
 class TransactionResponse(BaseModel):
     id: int

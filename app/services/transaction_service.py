@@ -5,8 +5,8 @@ from app.models.account import Account
 from app.models.device import Device
 from app.models.transaction import Transaction
 from app.models.user import User
-from app.schemas.transaction import TransactionCreate
-
+from app.schemas.transaction import TransactionCreate, TransactionUpdate
+from sqlalchemy.exc import IntegrityError
 
 def create_transaction(
     db: Session,
@@ -72,3 +72,53 @@ def get_transactions(
     ).all()
 
     return transactions
+
+def update_transaction(
+    db: Session,
+    transaction_id: int,
+    transaction_data: TransactionUpdate,
+    current_user: User,
+) -> Transaction:
+    """
+    Update an active transaction belonging to the authenticated user.
+    """
+    transaction = db.scalar(
+        select(Transaction).where(
+            Transaction.id == transaction_id,
+            Transaction.user_id == current_user.id,
+            Transaction.is_deleted.is_(False),
+        )
+    )
+
+    if transaction is None:
+        raise ValueError("Transaction not found.")
+
+    update_data = transaction_data.model_dump(
+        exclude_unset=True,
+    )
+
+    if not update_data:
+        return transaction
+
+    if "device_id" in update_data:
+        device = db.scalar(
+            select(Device).where(
+                Device.id == update_data["device_id"]
+            )
+        )
+
+        if device is None:
+            raise ValueError("Device not found.")
+
+    for field, value in update_data.items():
+        setattr(transaction, field, value)
+
+    try:
+        db.commit()
+        db.refresh(transaction)
+
+    except IntegrityError:
+        db.rollback()
+        raise
+
+    return transaction
