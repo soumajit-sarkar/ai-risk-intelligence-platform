@@ -1,0 +1,622 @@
+AI RISK INTELLIGENCE PLATFORM
+NUMPY / RISK FEATURE ENGINEERING — FORMULA CHEAT SHEET
+========================================================
+
+Purpose:
+Keep the mathematical formulas we encounter during the AI Risk Intelligence
+Platform learning path in one place. This file is designed for quick review
+and memorization.
+
+IMPORTANT:
+These are formulas we have learned or used so far. We will keep adding new
+formulas as we encounter them during the project.
+
+--------------------------------------------------------
+1. MEAN / AVERAGE
+--------------------------------------------------------
+
+Formula:
+
+mean = sum of all values / number of values
+
+Mathematical form:
+
+mean = Σx / n
+
+Where:
+- Σx = sum of all values
+- n = number of values
+
+Example:
+
+Values = [250, 800, 120]
+
+sum = 250 + 800 + 120 = 1170
+n = 3
+
+mean = 1170 / 3
+     = 390
+
+NumPy:
+
+np.mean(amounts)
+
+
+--------------------------------------------------------
+2. DEVIATION FROM THE MEAN
+--------------------------------------------------------
+
+Formula:
+
+deviation = value - mean
+
+Example:
+
+Values = [250, 800, 120]
+Mean = 390
+
+For 250:
+
+250 - 390 = -140
+
+For 800:
+
+800 - 390 = 410
+
+For 120:
+
+120 - 390 = -270
+
+NumPy:
+
+deviation = amounts - np.mean(amounts)
+
+
+--------------------------------------------------------
+3. RELATIVE VALUE COMPARED WITH AN AVERAGE
+--------------------------------------------------------
+
+Formula:
+
+relative value = value / average
+
+Example:
+
+Amount = 250
+Average amount = 125.5
+
+relative value = 250 / 125.5
+               ≈ 1.992
+
+Interpretation:
+The transaction amount is approximately 1.992 times the average amount.
+
+NumPy:
+
+relative_amount = amounts / average_amounts
+
+
+--------------------------------------------------------
+4. RELATIVE DEVIATION
+--------------------------------------------------------
+
+Formula:
+
+relative deviation = (value - average) / average
+
+Example:
+
+Amount = 250
+Average = 125.5
+
+relative deviation = (250 - 125.5) / 125.5
+                   ≈ 0.992
+
+If expressed as a percentage:
+
+percentage deviation = ((value - average) / average) × 100
+
+Example:
+
+0.992 × 100 ≈ 99.2%
+
+
+--------------------------------------------------------
+5. STANDARD DEVIATION
+--------------------------------------------------------
+
+Population standard deviation formula:
+
+σ = sqrt( Σ(x - μ)^2 / n )
+
+Where:
+- σ = standard deviation
+- x = each value
+- μ = mean
+- n = number of values
+- Σ = sum
+
+Step-by-step:
+
+1. Calculate the mean.
+2. Calculate each value's deviation from the mean.
+3. Square each deviation.
+4. Add the squared deviations.
+5. Divide by n.
+6. Take the square root.
+
+For our values:
+
+[250, 800, 120]
+
+Mean = 390
+
+Deviations:
+
+250 - 390 = -140
+800 - 390 = 410
+120 - 390 = -270
+
+NumPy:
+
+np.std(amounts)
+
+IMPORTANT:
+np.std() uses the population standard deviation by default (ddof=0).
+
+
+--------------------------------------------------------
+6. VARIANCE
+--------------------------------------------------------
+
+Population variance formula:
+
+variance = Σ(x - μ)^2 / n
+
+Standard deviation is the square root of variance:
+
+standard deviation = sqrt(variance)
+
+Therefore:
+
+variance = (standard deviation)^2
+
+NumPy:
+
+np.var(amounts)
+
+
+--------------------------------------------------------
+7. MINIMUM
+--------------------------------------------------------
+
+Formula / concept:
+
+minimum = smallest value in the dataset
+
+Example:
+
+[250, 800, 120]
+
+minimum = 120
+
+NumPy:
+
+np.min(amounts)
+
+
+--------------------------------------------------------
+8. MAXIMUM
+--------------------------------------------------------
+
+Formula / concept:
+
+maximum = largest value in the dataset
+
+Example:
+
+[250, 800, 120]
+
+maximum = 800
+
+NumPy:
+
+np.max(amounts)
+
+
+--------------------------------------------------------
+9. SUM
+--------------------------------------------------------
+
+Formula:
+
+sum = x1 + x2 + x3 + ... + xn
+
+Example:
+
+250 + 800 + 120 = 1170
+
+NumPy:
+
+np.sum(amounts)
+
+
+--------------------------------------------------------
+10. MEDIAN
+--------------------------------------------------------
+
+Concept:
+
+1. Sort the values.
+2. Find the middle value.
+
+Example:
+
+Original:
+
+[250, 800, 120]
+
+Sorted:
+
+[120, 250, 800]
+
+Median:
+
+250
+
+NumPy:
+
+np.median(amounts)
+
+
+--------------------------------------------------------
+11. PERCENTILE
+--------------------------------------------------------
+
+A percentile describes a position within ordered data.
+
+The 50th percentile corresponds to the median.
+
+Example:
+
+[120, 250, 800]
+
+50th percentile = 250
+
+NumPy:
+
+np.percentile(amounts, 50)
+
+
+--------------------------------------------------------
+12. NUMPY DEFAULT LINEAR PERCENTILE POSITION
+--------------------------------------------------------
+
+For NumPy's default percentile method (method="linear"), the position is:
+
+position = (n - 1) × p
+
+Where:
+- n = number of values
+- p = percentile expressed as a decimal
+
+Examples:
+
+25th percentile:
+
+p = 25 / 100
+  = 0.25
+
+For:
+
+[120, 250, 800]
+
+n = 3
+p = 0.25
+
+position = (3 - 1) × 0.25
+         = 2 × 0.25
+         = 0.5
+
+So the percentile lies at position 0.5.
+
+IMPORTANT:
+NumPy uses zero-based positions for this calculation.
+
+Positions:
+
+position 0 → 120
+position 1 → 250
+position 2 → 800
+
+
+--------------------------------------------------------
+13. LINEAR INTERPOLATION FOR PERCENTILES
+--------------------------------------------------------
+
+When the percentile position is not a whole number, interpolate between
+the surrounding values.
+
+General formula:
+
+result = lower_value + fraction × (upper_value - lower_value)
+
+For our 25th percentile:
+
+Values:
+
+[120, 250, 800]
+
+Position = 0.5
+
+Lower value = 120
+Upper value = 250
+Fraction = 0.5
+
+Therefore:
+
+result = 120 + 0.5 × (250 - 120)
+       = 120 + 0.5 × 130
+       = 120 + 65
+       = 185
+
+Therefore:
+
+25th percentile = 185.0
+
+NumPy:
+
+np.percentile(amounts, 25)
+
+
+--------------------------------------------------------
+14. PERCENTILE AS A PERCENTAGE
+--------------------------------------------------------
+
+Convert a percentage to a decimal:
+
+p = percentage / 100
+
+Examples:
+
+25% = 25 / 100 = 0.25
+50% = 50 / 100 = 0.50
+75% = 75 / 100 = 0.75
+90% = 90 / 100 = 0.90
+95% = 95 / 100 = 0.95
+99% = 99 / 100 = 0.99
+
+
+--------------------------------------------------------
+15. IMPORTANT PERCENTILE NAMES
+--------------------------------------------------------
+
+25th percentile = Q1 = first quartile
+
+50th percentile = Q2 = median
+
+75th percentile = Q3 = third quartile
+
+We will use Q1 and Q3 later when learning IQR and outlier detection.
+
+
+--------------------------------------------------------
+16. IQR — INTERQUARTILE RANGE
+--------------------------------------------------------
+
+Formula:
+
+IQR = Q3 - Q1
+
+Where:
+- Q1 = 25th percentile
+- Q3 = 75th percentile
+
+Example structure:
+
+Q1 = 25th percentile
+Q3 = 75th percentile
+
+IQR = Q3 - Q1
+
+We will calculate this with actual transaction data when we reach the
+outlier-detection section.
+
+
+--------------------------------------------------------
+17. OUTLIER BOUNDARIES USING IQR
+--------------------------------------------------------
+
+Common rule:
+
+Lower boundary = Q1 - 1.5 × IQR
+
+Upper boundary = Q3 + 1.5 × IQR
+
+A value below the lower boundary or above the upper boundary is commonly
+flagged as a potential outlier.
+
+IMPORTANT:
+This is a statistical rule of thumb, not a guarantee that a value is
+fraudulent or risky. We will use it as a feature-engineering technique.
+
+
+--------------------------------------------------------
+18. TRANSACTION AMOUNT INCREASE BY A PERCENTAGE
+--------------------------------------------------------
+
+To increase a value by r%:
+
+new value = original value × (1 + r)
+
+where r is written as a decimal.
+
+Example:
+
+10% = 0.10
+
+new amount = amount × 1.10
+
+For:
+
+[250, 800, 120]
+
+new values:
+
+[250 × 1.10, 800 × 1.10, 120 × 1.10]
+
+= [275, 880, 132]
+
+NumPy:
+
+amounts * 1.10
+
+
+--------------------------------------------------------
+19. PERCENTAGE CHANGE
+--------------------------------------------------------
+
+Formula:
+
+percentage change = ((new value - old value) / old value) × 100
+
+Example:
+
+Old value = 100
+New value = 120
+
+percentage change = ((120 - 100) / 100) × 100
+                 = 20%
+
+This will become useful when we work with transaction behavior changes.
+
+
+--------------------------------------------------------
+20. BASIC MATRIX / ARRAY SHAPE
+--------------------------------------------------------
+
+For a 2D NumPy array:
+
+shape = (number of rows, number of columns)
+
+Example:
+
+[[250, 3, 125.5],
+ [800, 8, 400.25],
+ [120, 1, 80]]
+
+There are:
+
+3 rows
+3 columns
+
+Therefore:
+
+shape = (3, 3)
+
+NumPy:
+
+transactions.shape
+
+
+--------------------------------------------------------
+21. NUMBER OF ELEMENTS IN AN ARRAY
+--------------------------------------------------------
+
+For a NumPy array:
+
+size = total number of elements
+
+For a 3 × 3 matrix:
+
+size = 3 × 3
+     = 9
+
+NumPy:
+
+transactions.size
+
+
+--------------------------------------------------------
+22. NUMBER OF DIMENSIONS
+--------------------------------------------------------
+
+For a NumPy array:
+
+ndim = number of dimensions
+
+Examples:
+
+[100, 200, 300]
+
+ndim = 1
+
+A matrix such as:
+
+[[100, 200],
+ [300, 400]]
+
+ndim = 2
+
+NumPy:
+
+array.ndim
+
+
+--------------------------------------------------------
+QUICK MEMORY SECTION
+--------------------------------------------------------
+
+Mean:
+mean = Σx / n
+
+Deviation:
+deviation = value - mean
+
+Relative value:
+relative value = value / average
+
+Relative deviation:
+relative deviation = (value - average) / average
+
+Population variance:
+variance = Σ(x - μ)^2 / n
+
+Population standard deviation:
+σ = sqrt(Σ(x - μ)^2 / n)
+
+Percentage:
+decimal = percentage / 100
+
+Percentage change:
+((new - old) / old) × 100
+
+Percentile position (NumPy default linear method):
+position = (n - 1) × p
+
+Percentile interpolation:
+result = lower + fraction × (upper - lower)
+
+IQR:
+IQR = Q3 - Q1
+
+Lower IQR boundary:
+Q1 - 1.5 × IQR
+
+Upper IQR boundary:
+Q3 + 1.5 × IQR
+
+--------------------------------------------------------
+NOTE
+--------------------------------------------------------
+
+Do NOT try to memorize every formula immediately.
+
+For this project, the goal is to understand:
+1. What question the formula answers.
+2. What each variable means.
+3. How to calculate it manually.
+4. How NumPy implements it.
+5. How the result can become a risk-engineering feature.
+
+We will keep expanding this file as new mathematical formulas are introduced.

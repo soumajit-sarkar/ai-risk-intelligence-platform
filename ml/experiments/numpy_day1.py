@@ -134,4 +134,100 @@ print()
 print("First two transactions - amount and velocity:")
 print(transactions[0:2,0:2])
 
-print(transactions[0])
+print()
+
+print("Transaction amounts:")
+
+amounts = transactions[:, 0]
+
+print(amounts)
+
+print()
+
+print("Transaction amounts increased by 10%:")
+
+print(amounts * 1.10)
+
+print()
+
+amounts = transactions[:,0]
+average_amounts = transactions[:,2]
+difference = amounts - average_amounts
+print(difference)
+
+print()
+print("Relative transaction amount compared with average amount:")
+relative_amount = amounts / average_amounts
+print(relative_amount)
+
+
+print()
+
+print("Relative deviation from average amount:")
+
+relative_deviation = (amounts - average_amounts) / average_amounts
+
+print(relative_deviation)
+
+print()
+
+print("Average transaction amount:")
+
+average_transaction_amount  = np.mean(amounts)
+
+print(average_transaction_amount)
+
+print()
+print("Deviation from overall average:")
+deviation_from_average  = amounts - average_transaction_amount
+print(deviation_from_average)
+
+print()
+
+print("Amounts used for standard deviation:")
+print(amounts)
+
+print()
+
+print("Mean used for standard deviation:")
+print(np.mean(amounts))
+
+print()
+print("Standard deviation of transaction amounts:")
+standard_deviation = np.std(amounts)
+print(standard_deviation)
+
+print()
+print("Minimum Transaction amount: ")
+minimum_amount = np.min(amounts)
+print(minimum_amount)
+
+print()
+
+print("Maximum transaction amount: ")
+maximum_amount = np.max(amounts)
+print(maximum_amount)
+
+print()
+print("Sum of transaction amounts: ")
+total_amount = np.sum(amounts)
+print(total_amount)
+
+print()
+median_amount = np.median(amounts)
+print("Median transaction amount: ")
+print(median_amount)
+
+print()
+print("50th percentile of transaction amounts:")
+print(np.percentile(amounts, 50))
+print()
+
+print()
+
+print("25th percentile of transaction amounts:")
+shorted_amount = np.short(amounts)
+print(shorted_amount)
+print(np.percentile(shorted_amount, 25))
+print()
+
