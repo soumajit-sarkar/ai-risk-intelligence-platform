@@ -226,8 +226,11 @@ print()
 print()
 
 print("25th percentile of transaction amounts:")
-shorted_amount = np.short(amounts)
-print(shorted_amount)
-print(np.percentile(shorted_amount, 25))
+print(np.percentile(amounts, 25))
 print()
+
+print("75th percentile of transaction amounts:")
+print(np.percentile(amounts,75))
+print()
+
 
