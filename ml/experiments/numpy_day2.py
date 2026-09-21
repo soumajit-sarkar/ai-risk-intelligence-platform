@@ -72,3 +72,35 @@ print(risk_flag)
 print()
 print("Risk transactions:")
 print(amounts[risk_flag])
+
+
+print()
+print("High risk flag:")
+high_risk_flag = outlier_mask | high_amount_flag
+print(high_risk_flag)
+
+print()
+print("High risk transactions:")
+print(amounts[high_risk_flag])
+
+print()
+high_risk_count  = np.sum(high_risk_flag)
+print("High risk flag count:")
+print(high_risk_count)
+total_transactions = high_risk_flag.size
+print("Total transactions are: ")
+print(total_transactions)
+high_risk_rate = (high_risk_count / total_transactions) * 100
+print("High risk rate: ")
+print(high_risk_rate)
+
+print()
+print("High risk numeric feature:")
+high_risk_numeric = np.where(high_risk_flag,1,0)
+print(high_risk_numeric)
+
+
+print()
+print("Capped transaction amount:")
+capped_amounts = np.clip(amounts, 100, 1000)
+print(capped_amounts)
