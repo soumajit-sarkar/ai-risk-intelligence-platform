@@ -104,3 +104,14 @@ print()
 print("Capped transaction amount:")
 capped_amounts = np.clip(amounts, 100, 1000)
 print(capped_amounts)
+
+
+print()
+print("Min-Max normalized amount:")
+
+min_amount = np.min(amounts)
+max_amount = np.max(amounts)
+
+normalized_amounts = (amounts - min_amount) / (max_amount - min_amount)
+
+print(normalized_amounts)
