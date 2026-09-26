@@ -115,3 +115,26 @@ max_amount = np.max(amounts)
 normalized_amounts = (amounts - min_amount) / (max_amount - min_amount)
 
 print(normalized_amounts)
+
+
+print()
+print("Z-score standardized amount:")
+mean_amount = np.mean(amounts)
+std_amount = np.std(amounts)
+z_score_amounts = (amounts - mean_amount) / std_amount
+print(z_score_amounts)
+
+print()
+print("Absolute Z-score deviation:")
+absolute_z_scores = np.abs(z_score_amounts)
+print(absolute_z_scores)
+
+print()
+print("Z-score risk flag:")
+z_risk_flag = absolute_z_scores > 1
+print(z_risk_flag)
+
+print()
+print("Combined risk flag:")
+combined_risk_flag = high_risk_flag | z_risk_flag
+print(combined_risk_flag)
