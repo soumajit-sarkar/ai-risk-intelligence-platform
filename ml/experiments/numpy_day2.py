@@ -111,11 +111,8 @@ print("Min-Max normalized amount:")
 
 min_amount = np.min(amounts)
 max_amount = np.max(amounts)
-
 normalized_amounts = (amounts - min_amount) / (max_amount - min_amount)
-
 print(normalized_amounts)
-
 
 print()
 print("Z-score standardized amount:")
