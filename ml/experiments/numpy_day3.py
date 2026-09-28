@@ -82,14 +82,6 @@ print("Column vector shape:")
 print(column_vector.shape)
 
 print()
-column_vector = transactions.reshape(transactions.size, 1)
-print("Column vector:")
-print(column_vector)
-print("Column vector shape:")
-print(column_vector.shape)
-print()
-
-print()
 flattened = transactions.flatten()
 raveled = transactions.ravel()
 print("Original first value:")
@@ -113,4 +105,28 @@ print()
 print("Raveled:")
 print(raveled)
 
+print()
+risk_features = np.array([
+    [0.6, 0.5, 0.8],
+    [2.5, 1.4, 0.3],
+    [7.5, 0.4, 0.4]
+])
 
+customer_multipliers = np.array([1.0, 1.5, 2.0])
+
+adjusted_features = (
+    risk_features * customer_multipliers.reshape(-1,1)
+)
+
+print("Adjusted risk features:")
+print(adjusted_features)
+print()
+
+amounts = np.array([100, 200, 500, 1000])
+
+risk_score = amounts / 100
+
+print("Vectorized risk score:")
+print(risk_score)
+
+print()
