@@ -122,11 +122,138 @@ print("Adjusted risk features:")
 print(adjusted_features)
 print()
 
-amounts = np.array([100, 200, 500, 1000])
-
 risk_score = amounts / 100
-
 print("Vectorized risk score:")
 print(risk_score)
+print()
+
+high_amount_flag = amounts >= 300
+print("High amount flags:")
+print(high_amount_flag)
+print()
+
+
+high_amount_numeric = np.where(high_amount_flag,1,0)
+print("High amount numeric feature:")
+print(high_amount_numeric)
+print()
+
+high_amount_flag_new_logic = amounts >= 500
+print("High amount flags according to new logic: ")
+print(high_amount_flag_new_logic)
+print()
+
+high_amount_numeric_new_logic = np.where(high_amount_flag_new_logic,1,0)
+print("High amount numeric feature: according to new logic: ")
+print(high_amount_numeric_new_logic)
+print()
+
+risk_flag = (amounts < 200) | (amounts >= 500)
+print("Combined risk flag:")
+print(risk_flag)
+print()
+
+risk_numeric = np.where(risk_flag,1,0)
+print("Vectorized risk numeric:")
+print(risk_numeric)
 
 print()
+normalized_amounts = (amounts - amounts.min()) / (amounts.max() - amounts.min())
+print("Vectorized normalized amounts:")
+print(normalized_amounts)
+print()
+
+amounts_with_nan = np.array([120, 250, np.nan, 800, 1500])
+print(np.nanmean(amounts_with_nan))
+print()
+
+nan_mask = np.isnan(amounts_with_nan)
+print("NaN mask:")
+print(nan_mask)
+print()
+
+missing_values = amounts_with_nan[nan_mask]
+print("Missing values:")
+print(missing_values)
+print()
+
+normal_std = np.std(amounts)
+nan_aware_std = np.nanstd(amounts_with_nan)
+print("Normal standard deviation:")
+print(normal_std)
+print("NaN-aware standard deviation:")
+print(nan_aware_std)
+print()
+
+nan_min = np.nanmin(amounts_with_nan)
+nan_max = np.nanmax(amounts_with_nan)
+
+print("NaN-aware minimum:")
+print(nan_min)
+
+print("NaN-aware maximum:")
+print(nan_max)
+print()
+
+
+feature_amounts = np.array([120, 250, 800, 1500])
+print("Feature amounts:")
+print(feature_amounts)
+print()
+
+amount_feature = feature_amounts.reshape(-1,1)
+print("Feature #1 - Amount:")
+print(amount_feature)
+
+print("Feature #1 shape:")
+print(amount_feature.shape)
+print()
+
+normalized_amount_feature = (
+    feature_amounts - feature_amounts.min()
+) / (
+    feature_amounts.max() - feature_amounts.min()
+)
+
+print("Feature #2 - Normalized Amount:")
+normalized_amount_feature = normalized_amount_feature.reshape(-1, 1)
+print(normalized_amount_feature)
+print("Feature #2 shape:")
+print(normalized_amount_feature.shape)
+
+print()
+high_risk_feature = (
+    (feature_amounts < 200) |
+    (feature_amounts >= 500)
+)
+
+print("Feature #3 - High Risk Flag:")
+print(high_risk_feature)
+print("Feature #3 shape:")
+print(high_risk_feature.shape)
+print()
+
+high_risk_numeric_feature = np.where(
+    high_risk_feature,
+    1,
+    0
+)
+
+print("Feature #3 - Numeric High Risk:")
+high_risk_numeric_feature = high_risk_numeric_feature.reshape(-1, 1)
+print(high_risk_numeric_feature)
+print("Feature #3 numeric shape:")
+print(high_risk_numeric_feature.shape)
+print()
+
+feature_matrix = np.column_stack((
+       amount_feature,
+       normalized_amount_feature,
+       high_risk_numeric_feature 
+ ))
+
+print("Final feature matrix:")
+print(feature_matrix)
+
+print("Final feature matrix shape:")
+print(feature_matrix.shape)
