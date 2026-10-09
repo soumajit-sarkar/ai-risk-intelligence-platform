@@ -32,3 +32,37 @@ print(transaction_df.dtypes)
 print()
 get_in_valid_amount = transaction_df["amount"] < 0
 print(get_in_valid_amount)
+
+invalid_test_df = pd.DataFrame(
+    {
+        "customer_id": ["C005"],
+        "amount": [-500],
+        "country": ["IN"],
+        "channel": ["WEB"]
+    },
+    index=["T008"]
+)
+
+print()
+print("Invalid test transaction:")
+print(invalid_test_df)
+
+print()
+get_invalid_amount = invalid_test_df["amount"] < 0
+print(get_invalid_amount)
+print()
+
+
+invalid_amount_mask = (
+    transaction_df["amount"].isnull()
+    |
+    (transaction_df["amount"] < 0)
+)
+
+print(invalid_amount_mask)
+
+
+"""
+Display only transactions that are invalid for monetary risk calculations.
+"""
+print(transaction_df.loc[invalid_amount_mask])
