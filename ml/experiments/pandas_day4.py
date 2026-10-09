@@ -66,3 +66,35 @@ print(invalid_amount_mask)
 Display only transactions that are invalid for monetary risk calculations.
 """
 print(transaction_df.loc[invalid_amount_mask])
+print()
+
+"""
+Business requirement
+Imagine your Risk Engine receives transaction data from an external payment service. 
+The amount field doesn't always arrive in a clean numeric format.
+"""
+
+raw_amounts = pd.Series(
+    ["900", "-500", "unknown", "0"],
+    index=["T012", "T013", "T014", "T015"]
+)
+
+numeric_amounts = pd.to_numeric(raw_amounts,errors="coerce")
+print("Converted amounts: ")
+print(numeric_amounts)
+print()
+
+"""
+Only transactions with successfully converted, non-missing amounts should reach the monetary risk calculation.
+"""
+
+valid_amounts = numeric_amounts.notna()
+risk_ready_mask = (valid_amounts & (numeric_amounts >= 0))
+
+print("Risk-ready mask:")
+print(risk_ready_mask)
+print()
+risk_ready_amounts = numeric_amounts.loc[risk_ready_mask]
+
+print("Risk-ready amounts:")
+print(risk_ready_amounts)
