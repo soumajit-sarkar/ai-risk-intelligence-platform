@@ -98,3 +98,56 @@ risk_ready_amounts = numeric_amounts.loc[risk_ready_mask]
 
 print("Risk-ready amounts:")
 print(risk_ready_amounts)
+print()
+
+"""
+Challenge 5: Clean incoming transaction data.
+"""
+
+incoming_df = pd.DataFrame(
+    {
+        "customer_id":["C005", "C006", "C007", "C008"],
+        "amount":["1500", "-200", "unknown", "0"],
+        "country":["IN", "US", "UK", "IN"],
+    },
+    index=["T016", "T017", "T018", "T019"]
+)
+
+print()
+print("Incoming transactions:")
+print(incoming_df)
+
+print()
+print("Incoming amount data type:")
+print(incoming_df["amount"].dtype)
+print()
+
+incoming_df["amount"] =pd.to_numeric(
+    incoming_df["amount"],
+    errors="coerce"
+)
+
+print()
+print("Converted incoming amounts:")
+print(incoming_df)
+
+print()
+print("Incoming amount data type:")
+print(incoming_df["amount"].dtype)
+print()
+
+identify_not_missing =  incoming_df["amount"].notna()
+identify_greater_than_zero = incoming_df["amount"] >= 0
+# print(identify_greater_than_zero)
+
+risk_ready_dataframe_mask = (identify_not_missing & identify_greater_than_zero)
+
+print("Risk-ready DataFrame mask:")
+print(risk_ready_dataframe_mask)
+print()
+
+risk_ready_df = incoming_df.loc[risk_ready_dataframe_mask]
+
+print()
+print("Risk-ready transactions:")
+print(risk_ready_df)
