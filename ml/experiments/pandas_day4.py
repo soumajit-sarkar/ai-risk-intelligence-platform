@@ -151,3 +151,19 @@ risk_ready_df = incoming_df.loc[risk_ready_dataframe_mask]
 print()
 print("Risk-ready transactions:")
 print(risk_ready_df)
+
+negative_amounts = incoming_df["amount"] < 0
+print("Negative amounts are: ")
+print(negative_amounts)
+print()
+
+transaction_with_negative_amount = incoming_df[negative_amounts]
+print("Transaction with negative amount: ")
+print(transaction_with_negative_amount)
+print()
+
+missing_amounts = incoming_df["amount"].isna()
+transaction_with_missing_amounts = incoming_df[missing_amounts]
+print("Transaction with missing amounts: ")
+print(transaction_with_missing_amounts)
+print()
