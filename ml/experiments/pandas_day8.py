@@ -210,3 +210,18 @@ print(X_scaled.min())
 
 print("\nSCALED FEATURE MAXIMUMS:")
 print(X_scaled.max())
+
+# Step 10: Final ML-Ready Feature Matrix
+
+X_final = X_scaled.to_numpy()
+print("\nFINAL ML-READY FEATURE MATRIX:")
+print(X_final)
+
+print("\nFINAL MATRIX SHAPE:")
+print(X_final.shape)
+
+print("\nFINAL MATRIX DATA TYPE:")
+print(X_final.dtype)
+
+print("\nFEATURE ORDER:")
+print(list(X_scaled.columns))
