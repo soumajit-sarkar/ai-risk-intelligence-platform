@@ -256,3 +256,5 @@ print("Transactions requiring review:", risk_enriched["requires_risk_review"].su
 print("High-value transactions:", risk_enriched["high_value_transaction"].sum())
 print("Transactions with fraud history:", risk_enriched["customer_has_fraud_history"].sum())
 print("Transactions with incomplete customer data:", risk_enriched["customer_data_incomplete"].sum())
+print()
+
