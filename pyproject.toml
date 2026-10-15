@@ -15,5 +15,13 @@ dependencies = [
     "pyjwt>=2.13.0",
     "pymysql>=1.2.0",
     "sqlalchemy>=2.0.52",
+    "torch>=2.14.1",
     "uvicorn[standard]>=0.52.4",
 ]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
