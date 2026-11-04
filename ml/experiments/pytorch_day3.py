@@ -14,6 +14,8 @@ class TransactionRiskModel(nn.Module):
         x = self.relu(x)
         x = self.output_layer(x)
         return x
+    
+torch.manual_seed(42)
 
 model = TransactionRiskModel()
 
@@ -25,6 +27,11 @@ sample_transaction = torch.tensor(
 prediction_scores = model(sample_transaction)
 print("Prediction scores:")
 print(prediction_scores)
+print()
+
+probabilities = torch.softmax(prediction_scores, dim = 0)
+print("\nPrediction probabilities:")
+print(probabilities)
 print()
 
 print("Output shape:")
@@ -61,7 +68,7 @@ print("\nLoss function:")
 print(loss_function)
 
 print()
-target_label = torch.tensor([0])
+target_label = torch.tensor([1])
 
 print("\nTarget label:")
 print(target_label)
@@ -85,3 +92,19 @@ print(model.hidden_layer.weight.grad)
 
 print("\nHidden layer bias gradients:")
 print(model.hidden_layer.bias.grad)
+
+print()
+optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+
+original_weights = model.hidden_layer.weight.clone()
+optimizer.step()
+updated_weights = model.hidden_layer.weight
+
+print("\nOriginal hidden layer weights:")
+print(original_weights)
+
+print("\nUpdated hidden layer weights:")
+print(updated_weights)
+
+print("\nWeight difference:")
+print(updated_weights - original_weights)
